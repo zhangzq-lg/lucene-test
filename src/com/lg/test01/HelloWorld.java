@@ -25,6 +25,10 @@ import org.junit.Test;
 
 import com.lg.test01.entity.Article;
 
+/**
+ * 添加索引库并查询数据
+ * @author zzq_eason
+ */
 public class HelloWorld {
 
 	// 共同要使用的资源
@@ -39,7 +43,7 @@ public class HelloWorld {
 			analyzer = new StandardAnalyzer(Version.LUCENE_30);
 		} catch (IOException e) {
 			System.out.println("实例化directory抛出异常");
-			throw new RuntimeException();
+			throw new RuntimeException(e);
 		}
 		
 	}
