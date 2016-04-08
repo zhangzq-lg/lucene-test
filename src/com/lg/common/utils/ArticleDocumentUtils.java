@@ -6,7 +6,7 @@ import org.apache.lucene.document.Field.Index;
 import org.apache.lucene.document.Field.Store;
 import org.apache.lucene.util.NumericUtils;
 
-import com.lg.test01.entity.Article;
+import com.lg.test.entity.Article;
 
 public class ArticleDocumentUtils {
 
