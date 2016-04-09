@@ -46,7 +46,7 @@ public class ArticleIndexDaoTest {
 
 	@Test
 	public void testDelete() {
-		articleDao.delete(0);
+		articleDao.delete(18);
 	}
 
 	@Test
