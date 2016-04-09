@@ -63,7 +63,7 @@ public class ArticleIndexDaoTest {
 	@Test
 	public void testSearch() {
 		// 获取查询条件，可以使用内容试试
-		String queryStr = "全球最大的中文搜索引擎";//"全球最大的中文搜索引擎";// "乱七八糟";
+		String queryStr = "乱七八糟";//"全球最大的中文搜索引擎";// "乱七八糟";
 
 		// 执行搜索
 		List<Article> articleList = articleDao.search(queryStr);
