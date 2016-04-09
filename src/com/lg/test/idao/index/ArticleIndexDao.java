@@ -32,24 +32,17 @@ public class ArticleIndexDao {
 		// 1.把Article专程Document
 		Document document = ArticleDocumentUtils.articleToDocument(article);
 		// 2.添加到索引库
-		IndexWriter indexWriter = null;
+		//IndexWriter indexWriter = null;
 
 		try {
-			indexWriter = new IndexWriter(LuceneUtils.getDirectory(),
-					LuceneUtils.getAnalyzer(), MaxFieldLength.LIMITED);
-			indexWriter.addDocument(document); // 添加
+			LuceneUtils.getIndexWriter().addDocument(document); // 添加
+			LuceneUtils.getIndexWriter().commit(); // 提交更改，马上应用
 		} catch (Exception e) {
 			throw new RuntimeException(e);
-		} finally {
-			// 关闭操作
-			if (indexWriter != null) {
-				try {
-					indexWriter.close();
-				} catch (Exception e) {
-					throw new RuntimeException(e);
-				}
-			}
-		}
+		} 
+			/**
+			 * 此处不需要关闭，否则其他用户无法使用
+			 */
 
 	}
 
@@ -61,25 +54,14 @@ public class ArticleIndexDao {
 	 */
 	public void delete(Integer id) {
 
-		IndexWriter indexWriter = null;
 		try {
 			String idStr = NumericUtils.intToPrefixCoded(id);
 			Term term = new Term("id", idStr); // id存放到目录中，但是没有分词，所以idStr只有唯一个
-			indexWriter = new IndexWriter(LuceneUtils.getDirectory(),
-					LuceneUtils.getAnalyzer(), MaxFieldLength.LIMITED);
-			indexWriter.deleteDocuments(term); // 删除所有含有这个term的Document对象
+			LuceneUtils.getIndexWriter().deleteDocuments(term); // 删除所有含有这个term的Document对象
+			LuceneUtils.getIndexWriter().commit();
 		} catch (Exception e) {
 			throw new RuntimeException(e);
-		} finally {
-			// 关闭操作
-			if (indexWriter != null) {
-				try {
-					indexWriter.close();
-				} catch (Exception e) {
-					throw new RuntimeException(e);
-				}
-			}
-		}
+		} 
 	}
 
 	/**
@@ -89,18 +71,21 @@ public class ArticleIndexDao {
 	 */
 	public void update(Article article) {
 
-		IndexWriter indexWriter = null;
+//		IndexWriter indexWriter = null;
 		try {
 			String idStr = NumericUtils.intToPrefixCoded(article.getId());
-			Term term = new Term("id", idStr); // 目的：先删除
-			indexWriter = new IndexWriter(LuceneUtils.getDirectory(),
-					LuceneUtils.getAnalyzer(), MaxFieldLength.LIMITED);
+			Term term = new Term("id", NumericUtils.intToPrefixCoded(article.getId())); // 目的：先删除
+			/*indexWriter = new IndexWriter(LuceneUtils.getDirectory(),
+					LuceneUtils.getAnalyzer(), MaxFieldLength.LIMITED);*/
 			// 下面的第二个参数是Document是为了添加
-			indexWriter.updateDocument(term,
-					ArticleDocumentUtils.articleToDocument(article)); // 更新索引库(流程是先删除后添加，直接更新代价太大)
+			/*indexWriter.updateDocument(term,
+					ArticleDocumentUtils.articleToDocument(article));*/ // 更新索引库(流程是先删除后添加，直接更新代价太大)
+			Document doc = ArticleDocumentUtils.articleToDocument(article);
+			LuceneUtils.getIndexWriter().updateDocument(term, doc);
+			LuceneUtils.getIndexWriter().commit();
 		} catch (Exception e) {
 			throw new RuntimeException(e);
-		} finally {
+		} /*finally {
 			// 关闭操作
 			if (indexWriter != null) {
 				try {
@@ -109,7 +94,7 @@ public class ArticleIndexDao {
 					throw new RuntimeException(e);
 				}
 			}
-		}
+		}*/
 	}
 
 	/**

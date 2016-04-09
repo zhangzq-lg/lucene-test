@@ -18,7 +18,7 @@ public class ArticleIndexDaoTest {
 	public void testSave() {
 		// 生成数据，此处应该是调用服务进行操作，在此处就省略
 		Article article = new Article();
-		article.setId(1);
+		article.setId(0);
 		article.setTitle("乱七八糟的想啥");
 		article.setContent("2015年1月24日，百度创始人、董事长兼CEO李彦宏在百度2014年会暨十五周年庆典上发表的主题演讲中表示，十五年来，百度坚持相信技术的力量，始终把简单可依赖的文化和人才成长机制当成最宝贵的财富");
 
@@ -46,15 +46,15 @@ public class ArticleIndexDaoTest {
 
 	@Test
 	public void testDelete() {
-		articleDao.delete(1);
+		articleDao.delete(0);
 	}
 
 	@Test
 	public void testUpdate() {
 		// 生成数据，此处应该是调用服务进行操作，在此处就省略
 		Article article = new Article();
-		article.setId(1);
-		article.setTitle("全球最大的中文搜索引擎");
+		article.setId(0);
+		article.setTitle("全球最大的中文搜索引擎1");
 		article.setContent("1999年底，身在美国硅谷的李彦宏看到了中国互联网及中文搜索引擎，抱着技术改变世界的梦想，他毅然辞掉硅谷的高薪工作，携搜索引擎专利技术");
 
 		articleDao.update(article);
@@ -63,7 +63,7 @@ public class ArticleIndexDaoTest {
 	@Test
 	public void testSearch() {
 		// 获取查询条件，可以使用内容试试
-		String queryStr = "乱七八糟";//"全球最大的中文搜索引擎";// "乱七八糟";
+		String queryStr = "全球最大的中文搜索引擎";//"全球最大的中文搜索引擎";// "乱七八糟";
 
 		// 执行搜索
 		List<Article> articleList = articleDao.search(queryStr);
